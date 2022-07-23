@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-df = np.asarray(pd.read_csv("data_banknote_authentication.txt", sep=","))
+df = np.asarray(pd.read_csv("banknote.txt", sep=","))
 y = df[:, -1:]
 print(y)
 
