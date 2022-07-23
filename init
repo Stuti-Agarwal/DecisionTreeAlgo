@@ -1,0 +1,36 @@
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import random
+import math
+data = np.asarray(pd.read_csv("banknote.txt", sep=","))
+print(data)
+
+
+def split(self, dataset, f_index, threshold):
+    left_tree = np.array([row for row in dataset if row[f_index] <= threshold])
+    right_tree = np.array([row for row in dataset if row[f_index] > threshold])
+    return left_tree, right_tree
+
+
+def get_best_split(self, dataset, num_samples, num_features):
+    best_split = {}
+    max_var_red = -float("inf")
+    for feature_index in range(num_features):
+        feature_values = dataset[:, feature_index]
+        possible_thresholds = np.unique(feature_values)
+        for threshold in possible_thresholds:
+            dataset_left, dataset_right = self.split(
+                dataset, feature_index, threshold)
+            if len(dataset_left) > 0 and len(dataset_right) > 0:
+                y, left_y, right_y = dataset[:, -
+                                             1], dataset_left[:, -1], dataset_right[:, -1]
+                curr_var_red = self.variance_reduction(y, left_y, right_y)
+                if curr_var_red > max_var_red:
+                    best_split["feature_index"] = feature_index
+                    best_split["threshold"] = threshold
+                    best_split["dataset_left"] = dataset_left
+                    best_split["dataset_right"] = dataset_right
+                    best_split["var_red"] = curr_var_red
+                    max_var_red = curr_var_red
+        return best_split
